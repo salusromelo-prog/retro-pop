@@ -1,0 +1,1141 @@
+<title>Retro Pop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Chivo:ital,wght@0,400;0,700;0,900;1,400&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#150E12;
+  --night:#140C12;
+  --stage:#2A1624;
+  --night-2:#1E1218;
+  --paper:#FFF1D6;
+  --paper-2:#FFE6BC;
+  --pink:#EE4B6E;
+  --pink-dk:#B92846;
+  --blush:#F5BFCB;
+  --cream:#F6E7B4;
+  --butter:#FFC43C;
+  --white:#FFF6E8;
+
+  --display:"Bungee","Arial Black",system-ui,sans-serif;
+  --pixel:"Press Start 2P","Courier New",monospace;
+  --body:"Chivo","Helvetica Neue",Arial,sans-serif;
+
+  --edge:4px solid var(--ink);
+  --hard:8px 8px 0 var(--ink);
+  --hero-scroll:520vh;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+canvas{image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--butter);outline-offset:3px}
+
+/* ---------- shared bits ---------- */
+.wrap{width:min(1180px,92vw);margin-inline:auto}
+.eyebrow{
+  font-family:var(--pixel);font-size:10px;line-height:1.9;letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.rp-h2{
+  font-family:var(--display);font-weight:400;text-transform:uppercase;
+  font-size:clamp(2rem,6vw,4rem);line-height:.98;margin:0;text-wrap:balance;
+  letter-spacing:-.01em;
+}
+.lede{max-width:56ch;font-size:clamp(1rem,1.6vw,1.18rem)}
+.band{border-top:5px solid var(--ink);position:relative}
+.band-night{background:var(--night);color:var(--paper)}
+.band-paper{background:var(--paper)}
+.band-paper2{background:var(--paper-2)}
+.band-pink{background:var(--pink);color:var(--ink)}
+.band-pad{padding:clamp(56px,9vw,110px) 0}
+.scan{position:absolute;inset:0;pointer-events:none;opacity:.16;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.22) 0 1px,transparent 1px 4px)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--pixel);font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;background:var(--butter);color:var(--ink);
+  border:var(--edge);padding:14px 20px;box-shadow:5px 5px 0 var(--ink);
+  transition:transform .08s ease, box-shadow .08s ease;cursor:pointer;
+}
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink)}
+.btn-pink{background:var(--pink);color:var(--white)}
+.btn-ghost{background:transparent;color:var(--paper);border-color:var(--paper);box-shadow:5px 5px 0 var(--pink)}
+
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;align-items:center;gap:18px;
+  padding:10px clamp(14px,4vw,34px);
+  background:var(--paper);border-bottom:4px solid var(--ink);
+  transform:translateY(-110%);transition:transform .35s cubic-bezier(.2,.8,.3,1);
+}
+.nav.show{transform:none}
+.nav-mark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-mark canvas{height:48px;width:auto}
+.nav-mark b{font-family:var(--display);font-size:19px;letter-spacing:-.02em;line-height:1}
+.nav-links{display:flex;gap:22px;margin-left:auto;align-items:center}
+.nav-links a{
+  font-family:var(--pixel);font-size:10px;text-decoration:none;text-transform:uppercase;
+  padding-bottom:3px;border-bottom:3px solid transparent;
+}
+.nav-links a:hover{border-bottom-color:var(--pink)}
+.nav .btn{padding:11px 14px}
+@media(max-width:860px){.nav-links a{display:none}}
+@media(max-width:640px){:root{--hero-scroll:430vh}}
+
+/* ---------- hero ---------- */
+.hero{height:var(--hero-scroll);position:relative;background:var(--stage)}
+.hero-fix{
+  position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-rows:auto 1fr auto;
+  color:var(--paper);
+}
+.hero-glow{
+  position:absolute;left:50%;top:47%;width:120vmin;height:120vmin;
+  transform:translate(-50%,-50%);pointer-events:none;
+  background:radial-gradient(circle,rgba(255,196,60,.26),rgba(238,75,110,.13) 42%,transparent 68%);
+}
+.hero-vig{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 42%,transparent 34%,rgba(8,4,7,.78) 100%)}
+.hero-top{
+  position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;
+  gap:16px;padding:clamp(16px,3vw,30px) clamp(16px,4vw,36px);
+}
+.hero-top .eyebrow{color:var(--blush)}
+.reel{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.reel .eyebrow{color:var(--butter)}
+.rail{display:flex;gap:3px}
+.rail i{width:9px;height:14px;background:rgba(255,246,232,.18);border:1px solid rgba(255,246,232,.3)}
+.rail i.on{background:var(--butter);border-color:var(--butter)}
+
+.stage-cell{position:relative;display:grid;place-items:center;z-index:2;min-height:0}
+.stage{
+  transform-origin:50% 49%;
+  will-change:transform;
+}
+#popcorn{height:min(58vh,520px);width:auto}
+
+.hero-bottom{
+  position:relative;z-index:3;display:grid;
+  padding:0 clamp(16px,4vw,36px) clamp(22px,4vw,44px);
+  min-height:clamp(118px,19vh,180px);
+}
+.hero-bottom > *{grid-area:1/1;align-self:end;justify-self:center;text-align:center}
+
+.caption{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(1.1rem,3.4vw,2.1rem);line-height:1;color:var(--paper);
+  transition:opacity .25s ease, transform .25s ease;
+}
+.caption.bang{color:var(--butter)}
+.hero-end{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+.hero-end.on{opacity:1;transform:none;pointer-events:auto}
+.hero-end h1{
+  font-family:var(--display);font-weight:400;text-transform:uppercase;
+  font-size:clamp(1.5rem,4.6vw,3.1rem);line-height:.95;margin:0 0 6px;color:var(--white);
+  text-wrap:balance;
+}
+.hero-end h1 em{font-style:normal;color:var(--butter)}
+.hero-end p{margin:0 0 18px;color:var(--blush);font-size:clamp(.95rem,1.6vw,1.05rem)}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cue{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  font-family:var(--pixel);font-size:9px;color:rgba(255,246,232,.55);
+  transition:opacity .3s ease;
+}
+.cue span{display:block;text-align:center;margin-top:6px;animation:bob 1.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* ---------- marquee ---------- */
+.marq{overflow:hidden;padding:14px 0;border-bottom:5px solid var(--ink)}
+.marq-track{display:flex;gap:34px;width:max-content;animation:slide 26s linear infinite}
+.marq-track span{font-family:var(--pixel);font-size:12px;white-space:nowrap;color:var(--ink)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- section head ---------- */
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+.head .rp-h2{flex:1 1 auto}
+.head .eyebrow{color:var(--pink)}
+.band-night .head .eyebrow{color:var(--butter)}
+.tag{
+  font-family:var(--pixel);font-size:10px;border:3px solid currentColor;padding:8px 12px;
+  text-transform:uppercase;white-space:nowrap;
+}
+
+/* ---------- sabores ---------- */
+.grid{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{
+  background:var(--white);border:var(--edge);box-shadow:var(--hard);
+  padding:22px;display:flex;flex-direction:column;gap:12px;position:relative;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.card:hover{transform:translate(-3px,-3px);box-shadow:11px 11px 0 var(--ink)}
+.card-art{display:grid;place-items:center;background:var(--paper-2);border:3px solid var(--ink);padding:14px 0}
+.card-art canvas{height:160px;width:auto}
+.card h3{font-family:var(--display);font-size:1.28rem;margin:2px 0 0;text-transform:uppercase;line-height:1.05}
+.card p{margin:0;font-size:.97rem;color:#4A3238;flex:1}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  border-top:3px dashed var(--ink);padding-top:12px;margin-top:2px}
+.price{font-family:var(--pixel);font-size:14px}
+.card .flag{
+  position:absolute;top:-14px;right:-10px;background:var(--butter);border:3px solid var(--ink);
+  font-family:var(--pixel);font-size:9px;padding:6px 8px;transform:rotate(4deg);
+}
+.heat{display:flex;gap:3px}
+.heat i{width:9px;height:9px;background:var(--ink);opacity:.16}
+.heat i.on{opacity:1;background:var(--pink)}
+
+/* ---------- combos ---------- */
+.tickets{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.ticket{
+  background:var(--paper);color:var(--ink);border:var(--edge);position:relative;
+  display:flex;flex-direction:column;box-shadow:8px 8px 0 var(--pink);
+}
+.ticket.star{box-shadow:8px 8px 0 var(--butter)}
+.ticket-top{padding:20px 20px 16px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.ticket-top h3{font-family:var(--display);font-size:1.3rem;margin:0;text-transform:uppercase;line-height:1.05}
+.stub{
+  border-top:3px dashed var(--ink);padding:16px 20px 20px;position:relative;
+  display:flex;flex-direction:column;gap:14px;
+}
+.stub::before,.stub::after{
+  content:"";position:absolute;width:22px;height:22px;background:var(--night);
+  border:4px solid var(--ink);border-radius:50%;top:-13px;
+}
+.stub::before{left:-17px}
+.stub::after{right:-17px}
+.ticket ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;font-size:.95rem}
+.ticket li{display:flex;gap:9px;align-items:baseline}
+.ticket li::before{content:"";width:9px;height:9px;background:var(--pink);flex:none;
+  box-shadow:0 0 0 2px var(--ink)}
+.ticket .price{font-size:19px;color:var(--pink-dk)}
+.ticket-meta{display:flex;justify-content:space-between;font-family:var(--pixel);font-size:9px;
+  color:#6B4A52;border-top:2px solid var(--ink);padding-top:10px}
+
+/* ---------- história ---------- */
+.story{display:grid;gap:clamp(30px,5vw,60px);grid-template-columns:1.15fr .85fr;align-items:start}
+@media(max-width:840px){.story{grid-template-columns:1fr}}
+.story p{max-width:60ch}
+.story p+p{margin-top:1.1em}
+.drop::first-letter{
+  font-family:var(--display);font-size:3.2em;line-height:.8;float:left;
+  margin:6px 10px 0 0;color:var(--pink);
+}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{border:var(--edge);background:var(--white);padding:18px;box-shadow:5px 5px 0 var(--pink)}
+.stat b{display:block;font-family:var(--pixel);font-size:20px;line-height:1.3;font-weight:400}
+.stat span{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:#6B4A52}
+.story-art{display:flex;gap:10px;justify-content:center;margin-top:20px}
+.story-art canvas{height:104px;width:auto}
+
+/* ---------- onde ---------- */
+.spots{display:flex;flex-direction:column;border-top:3px solid var(--ink)}
+.spot{
+  display:grid;grid-template-columns:auto 1fr auto auto;gap:18px;align-items:center;
+  padding:20px 6px;border-bottom:3px solid var(--ink);
+}
+.spot .n{font-family:var(--pixel);font-size:11px;color:var(--pink-dk)}
+.spot h3{font-family:var(--display);font-size:1.1rem;margin:0;text-transform:uppercase}
+.spot .addr{font-size:.92rem;color:#6B4A52}
+.spot .hrs{font-family:var(--pixel);font-size:10px;white-space:nowrap}
+.spot .dot{width:11px;height:11px;background:var(--pink);box-shadow:0 0 0 3px var(--ink)}
+@media(max-width:720px){
+  .spot{grid-template-columns:auto 1fr;gap:6px 14px}
+  .spot .hrs{grid-column:2}
+  .spot .dot{display:none}
+}
+
+/* ---------- placar ---------- */
+.score{width:100%;border-collapse:collapse;font-size:.95rem}
+.score th{
+  font-family:var(--pixel);font-size:9px;text-align:left;text-transform:uppercase;
+  color:var(--butter);padding:0 12px 12px 0;font-weight:400;
+}
+.score td{padding:14px 12px 14px 0;border-top:2px solid rgba(255,246,232,.22);vertical-align:top}
+.score .rk{font-family:var(--pixel);font-size:12px;color:var(--pink)}
+.score .ini{font-family:var(--pixel);font-size:12px;color:var(--paper)}
+.score .pts{font-family:var(--pixel);font-size:11px;color:var(--butter);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.score q{color:var(--blush);font-style:italic}
+.score-wrap{overflow-x:auto}
+
+/* ---------- clube ---------- */
+.club{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,56px);align-items:center}
+@media(max-width:840px){.club{grid-template-columns:1fr}}
+.club form{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.club input{
+  flex:1 1 240px;border:var(--edge);background:var(--white);padding:14px 16px;
+  font-family:var(--body);font-size:1rem;color:var(--ink);box-shadow:inset 3px 3px 0 rgba(21,14,18,.10);
+}
+.club input::placeholder{color:#8B6A72}
+.note{font-family:var(--pixel);font-size:9px;margin-top:14px;color:var(--pink-dk)}
+.club-art{display:grid;place-items:center}
+.club-art canvas{height:min(360px,48vw);width:auto}
+
+/* ---------- rail de pipoca ---------- */
+.rail-pop{display:flex;overflow:hidden;background:var(--pink);padding:10px 0;gap:12px;justify-content:center;
+  border-bottom:5px solid var(--ink)}
+.rail-pop canvas{height:22px;width:auto;flex:none}
+
+/* ---------- footer ---------- */
+.foot{background:var(--ink);color:var(--paper);padding:clamp(48px,7vw,84px) 0 34px;border-top:5px solid var(--ink)}
+.foot-word{
+  font-family:var(--display);font-size:clamp(3rem,15vw,10.5rem);line-height:.82;
+  text-transform:uppercase;color:var(--pink);margin:0 0 34px;letter-spacing:-.02em;
+}
+.foot-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:30px;
+  border-top:3px solid rgba(255,246,232,.25);padding-top:30px}
+.foot-cols h4{font-family:var(--pixel);font-size:9px;text-transform:uppercase;color:var(--butter);margin:0 0 14px;font-weight:400}
+.foot-cols ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:.93rem}
+.foot-cols a{text-decoration:none;color:var(--blush)}
+.foot-cols a:hover{color:var(--butter)}
+.foot-bot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;
+  margin-top:34px;padding-top:20px;border-top:3px solid rgba(255,246,232,.25);
+  font-family:var(--pixel);font-size:9px;color:rgba(255,246,232,.6);line-height:1.9}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.3,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- toast ---------- */
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,140%);z-index:90;
+  background:var(--butter);color:var(--ink);border:var(--edge);box-shadow:var(--hard);
+  padding:14px 18px;font-family:var(--pixel);font-size:10px;transition:transform .4s cubic-bezier(.2,.8,.3,1);
+}
+.toast.on{transform:translate(-50%,0)}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .marq-track{animation:none}
+  .cue span{animation:none}
+  .rv{opacity:1;transform:none;transition:none}
+}
+</style>
+
+<nav class="nav" id="nav">
+  <a class="nav-mark" href="#topo"><canvas data-mini="1"></canvas><b>RETRO POP</b></a>
+  <div class="nav-links">
+    <a href="#sabores">Sabores</a>
+    <a href="#combos">Combos</a>
+    <a href="#historia">A banca</a>
+    <a href="#onde">Onde fica</a>
+  </div>
+  <a class="btn btn-pink" href="#clube">Reservar</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="topo">
+  <div class="hero-fix">
+    <div class="hero-glow"></div>
+    <div class="scan"></div>
+    <div class="hero-vig"></div>
+
+    <div class="hero-top">
+      <div class="eyebrow">Retro Pop · pipoca gourmet</div>
+      <div class="reel">
+        <div class="eyebrow">Rolo 01</div>
+        <div class="rail" id="rail"></div>
+      </div>
+    </div>
+
+    <div class="stage-cell">
+      <div class="stage" id="stage"><canvas id="popcorn"></canvas></div>
+    </div>
+
+    <div class="hero-bottom">
+      <p class="caption" id="caption">no começo, era só um grão</p>
+      <div class="hero-end" id="heroEnd">
+        <h1>Pipoca gourmet<br><em>na feira da escola</em></h1>
+        <p>Banca da Retro Pop · Escola SESI SENAI Jardim Colorado</p>
+        <div class="hero-cta">
+          <a class="btn btn-pink" href="#sabores">Ver os sabores</a>
+          <a class="btn btn-ghost" href="#onde">Onde fica a banca</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cue" id="cue">role para estourar<span>▼</span></div>
+  </div>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marq band band-pink" aria-hidden="true">
+  <div class="marq-track" id="marq"></div>
+</div>
+
+<!-- ============ SABORES ============ -->
+<section class="band band-paper band-pad" id="sabores">
+  <div class="wrap">
+    <div class="head rv">
+      <div>
+        <div class="eyebrow">O cardápio</div>
+        <h2 class="rp-h2">Seis sabores<br>na mesma banca</h2>
+      </div>
+      <div class="tag">Preço do copo M · 100 g</div>
+    </div>
+    <div class="grid" id="sabores-grid"></div>
+  </div>
+</section>
+
+<div class="rail-pop" id="rail-pop" aria-hidden="true"></div>
+
+<!-- ============ COMBOS ============ -->
+<section class="band band-night band-pad" id="combos">
+  <div class="scan"></div>
+  <div class="wrap" style="position:relative">
+    <div class="head rv">
+      <div>
+        <div class="eyebrow">Combos</div>
+        <h2 class="rp-h2" style="color:var(--paper)">Leva mais,<br>paga menos</h2>
+      </div>
+      <div class="tag" style="color:var(--butter)">Só na banca, no dia da feira</div>
+    </div>
+
+    <div class="tickets">
+      <article class="ticket rv">
+        <div class="ticket-top">
+          <h3>Combo Solo</h3>
+          <div class="price">R$&nbsp;8</div>
+        </div>
+        <div class="stub">
+          <ul>
+            <li>1 copo M do sabor que quiser</li>
+            <li>1 copo de suco gelado</li>
+            <li>Guardanapo (você vai precisar)</li>
+          </ul>
+          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra circular pela feira mastigando.</p>
+          <div class="ticket-meta"><span>Vale 1 pipoca</span><span>Retro Pop</span></div>
+        </div>
+      </article>
+
+      <article class="ticket star rv">
+        <div class="ticket-top">
+          <h3>Combo Dupla</h3>
+          <div class="price">R$&nbsp;14</div>
+        </div>
+        <div class="stub">
+          <ul>
+            <li>2 copos M — sabores diferentes</li>
+            <li>2 copos de suco gelado</li>
+            <li>Sai mais barato que dois separados</li>
+          </ul>
+          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra dividir com quem entrou na fila com você.</p>
+          <div class="ticket-meta"><span>Vale 2 pipocas</span><span>Retro Pop</span></div>
+        </div>
+      </article>
+
+      <article class="ticket rv">
+        <div class="ticket-top">
+          <h3>Balde da Turma</h3>
+          <div class="price">R$&nbsp;25</div>
+        </div>
+        <div class="stub">
+          <ul>
+            <li>1 balde G — dá pra quatro</li>
+            <li>Até 2 sabores no mesmo balde</li>
+            <li>Sob encomenda, avisa antes</li>
+          </ul>
+          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra sala inteira dividir no intervalo.</p>
+          <div class="ticket-meta"><span>Vale 1 balde</span><span>Retro Pop</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HISTÓRIA ============ -->
+<section class="band band-paper band-pad" id="historia">
+  <div class="wrap">
+    <div class="head rv">
+      <div>
+        <div class="eyebrow">A banca</div>
+        <h2 class="rp-h2">Feito por alunos,<br>estourado na hora</h2>
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="rv">
+        <p class="drop lede">A Retro Pop é uma banca de pipoca gourmet montada por alunos da Escola SESI SENAI Jardim Colorado para a feira da escola.</p>
+        <p>A ideia era pegar a pipoca de sempre e levar a sério: milho bom, manteiga de verdade e caldas feitas na hora, servidas num balde listrado que parece ter saído de um cinema antigo.</p>
+        <p>Tudo é estourado na frente de quem pede, em porções pequenas, pra chegar quentinho na sua mão. Passa na banca, escolhe o sabor e fica olhando o milho estourar.</p>
+        <div class="story-art" id="story-art" aria-hidden="true"></div>
+      </div>
+
+      <div class="stats rv">
+        <div class="stat"><b>06</b><span>Sabores no cardápio</span></div>
+        <div class="stat"><b>R$&nbsp;5</b><span>A partir de</span></div>
+        <div class="stat"><b>03</b><span>Tamanhos: P, M e G</span></div>
+        <div class="stat"><b>0min</b><span>Da panela pro copo</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ONDE ============ -->
+<section class="band band-paper2 band-pad" id="onde">
+  <div class="wrap">
+    <div class="head rv">
+      <div>
+        <div class="eyebrow">Onde e quando</div>
+        <h2 class="rp-h2">Passa na<br>nossa banca</h2>
+      </div>
+      <div class="tag">Pix e dinheiro</div>
+    </div>
+
+    <div class="spots rv">
+      <div class="spot">
+        <div class="n">01</div>
+        <div><h3>Escola SESI SENAI Jardim Colorado</h3><div class="addr">Banca da Retro Pop, no espaço da feira</div></div>
+        <div class="hrs">Procure o balde listrado</div>
+        <div class="dot"></div>
+      </div>
+      <div class="spot">
+        <div class="n">02</div>
+        <div><h3>Dia da feira</h3><div class="addr">Funcionamos só durante a feira da escola</div></div>
+        <div class="hrs">Data a confirmar</div>
+        <div class="dot"></div>
+      </div>
+      <div class="spot">
+        <div class="n">03</div>
+        <div><h3>Pagamento</h3><div class="addr">Pix na hora ou dinheiro — traga trocado se puder</div></div>
+        <div class="hrs">Sem taxa</div>
+        <div class="dot"></div>
+      </div>
+      <div class="spot">
+        <div class="n">04</div>
+        <div><h3>Encomenda</h3><div class="addr">Balde da turma sai mais rápido se avisar antes</div></div>
+        <div class="hrs">Fale com a gente</div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PERGUNTAS ============ -->
+<section class="band band-night band-pad" id="faq">
+  <div class="scan"></div>
+  <div class="wrap" style="position:relative">
+    <div class="head rv">
+      <div>
+        <div class="eyebrow">Perguntas rápidas</div>
+        <h2 class="rp-h2" style="color:var(--paper)">O que perguntam<br>na banca</h2>
+      </div>
+      <div class="tag" style="color:var(--blush)">Dúvida nova? é só chamar</div>
+    </div>
+
+    <div class="score-wrap rv">
+      <table class="score">
+        <thead>
+          <tr><th>Nº</th><th>Pergunta</th><th>Resposta</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="rk">01</td><td>Serve quantas pessoas?</td><td><q>O copo M mata a vontade de uma pessoa. O balde G divide bem entre quatro.</q></td></tr>
+          <tr><td class="rk">02</td><td>Dá pra encomendar antes?</td><td><q>Dá. Fala com a gente antes da feira e a gente separa o seu.</q></td></tr>
+          <tr><td class="rk">03</td><td>Tem sabor sem açúcar?</td><td><q>Tem: manteiga clássica e cheddar são salgados, sem açúcar nenhum.</q></td></tr>
+          <tr><td class="rk">04</td><td>E se eu tiver alergia?</td><td><q>Pergunte na banca antes de pedir — a gente mostra a embalagem de cada ingrediente que usamos.</q></td></tr>
+          <tr><td class="rk">05</td><td>Aceita cartão?</td><td><q>Por enquanto só pix e dinheiro. O pix cai na hora.</q></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLUBE ============ -->
+<section class="band band-pink band-pad" id="clube">
+  <div class="wrap club">
+    <div class="rv">
+      <div class="eyebrow" style="color:var(--white)">Encomenda</div>
+      <h2 class="rp-h2" style="color:var(--white);margin-top:10px">Garanta o seu<br>antes da feira</h2>
+      <p class="lede" style="color:var(--ink);margin-top:16px">Quer um balde grande pra turma ou um sabor específico separado? Deixa seu nome que a gente reserva pro dia da feira.</p>
+      <form id="clubForm">
+        <label for="nome" class="eyebrow" style="flex:1 1 100%;color:var(--white)">Seu nome e turma</label>
+        <input id="nome" type="text" required placeholder="Ana · 2º ano B" autocomplete="name">
+        <button class="btn" type="submit">Quero reservar</button>
+      </form>
+      <p class="note">A reserva vale quando você confirmar com a gente pessoalmente.</p>
+    </div>
+    <div class="club-art rv" aria-hidden="true"><canvas id="clubCanvas"></canvas></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot-word">Retro Pop</p>
+    <div class="foot-cols">
+      <div>
+        <h4>Cardápio</h4>
+        <ul>
+          <li><a href="#sabores">Sabores</a></li>
+          <li><a href="#combos">Combos</a></li>
+          <li><a href="#clube">Encomenda</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>A banca</h4>
+        <ul>
+          <li><a href="#historia">Quem faz</a></li>
+          <li><a href="#onde">Onde fica</a></li>
+          <li><a href="#faq">Perguntas rápidas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Onde</h4>
+        <ul>
+          <li>Escola SESI SENAI</li>
+          <li>Jardim Colorado</li>
+          <li>Espaço da feira</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Falar com a gente</h4>
+        <ul>
+          <li><a href="#clube">Reservar um balde</a></li>
+          <li><a href="#faq">Tirar uma dúvida</a></li>
+          <li><a href="#onde">Como chegar na banca</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>Retro Pop · banca de pipoca gourmet da feira da escola</span>
+      <span>Escola SESI SENAI Jardim Colorado</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Anotado! Confirma com a gente pra garantir.</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ===================== paleta ===================== */
+  var INK   = "#150E12",
+      CREAM = "#F6E7B4", CREAM_HI = "#FFF6DA", CREAM_SH = "#DBBC72",
+      PINK  = "#EE4B6E", PINK_DK  = "#B92846",
+      WHITE = "#FFF6E8", BUTTER   = "#FFC43C",
+      KERNEL= "#E8A93A", KERNEL_D = "#A9701C";
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ===================== utilidades ===================== */
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      var t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function clamp(v,a,b){ a = a===undefined?0:a; b = b===undefined?1:b; return v<a?a:(v>b?b:v); }
+  function lerp(a,b,t){ return a + (b-a)*t; }
+  function easeOut(t){ return 1 - Math.pow(1-t,3); }
+  function easeInOut(t){ return t<.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+  function easeBack(t){ var c1=1.9, c3=c1+1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); }
+  function cv(w,h){ var c=document.createElement("canvas"); c.width=w; c.height=h; return c; }
+
+  /* disco em pixel puro (sem antialias) */
+  function disc(c,cx,cy,r,col){
+    if(r<=0) return;
+    c.fillStyle = col;
+    var rr = r*r, top = Math.ceil(cy-r), bot = Math.floor(cy+r), y, dy, t, dx, x0, x1;
+    for(y=top; y<=bot; y++){
+      dy = y + 0.5 - cy; t = rr - dy*dy;
+      if(t < 0) continue;
+      dx = Math.sqrt(t);
+      x0 = Math.round(cx-dx); x1 = Math.round(cx+dx);
+      if(x1 > x0) c.fillRect(x0, y, x1-x0, 1);
+    }
+  }
+
+  /* ===================== sprite: pipoca ===================== */
+  function makePuff(seed, pal, S){
+    S = S || 34;
+    var c = cv(S,S), x = c.getContext("2d"), rnd = mulberry32(seed);
+    var lobes = [{x:S/2, y:S/2+S*0.03, r:S*0.185}];
+    var n = 5 + Math.floor(rnd()*3), i, a, d;
+    for(i=0;i<n;i++){
+      a = (i/n)*6.2832 + rnd()*0.75;
+      d = S*(0.13 + rnd()*0.11);
+      lobes.push({ x:S/2+Math.cos(a)*d, y:S/2+Math.sin(a)*d*0.92, r:S*(0.098+rnd()*0.072) });
+    }
+    lobes.forEach(function(l){ disc(x,l.x,l.y,l.r+S*0.052,pal.ink||INK); });
+    lobes.forEach(function(l){ disc(x,l.x,l.y,l.r,pal.fill); });
+    lobes.forEach(function(l){ disc(x,l.x+l.r*0.30,l.y+l.r*0.33,l.r*0.55,pal.sh); });
+    lobes.forEach(function(l){ disc(x,l.x-l.r*0.28,l.y-l.r*0.30,l.r*0.48,pal.hi); });
+    return c;
+  }
+
+  var CREAM_PAL = { fill:CREAM, hi:CREAM_HI, sh:CREAM_SH, ink:INK };
+
+  function puffSet(pal, S, count, seed0){
+    var out = [], i;
+    for(i=0;i<count;i++) out.push(makePuff(seed0+i*97, pal, S));
+    return out;
+  }
+
+  /* ===================== sprite: balde ===================== */
+  function makeBucket(pal, w, h){
+    var c = cv(w,h), x = c.getContext("2d");
+    var taper = 0.18, cxw = w/2, y, t, half, s, a, b, i;
+    var ow = w < 46 ? 1 : 2, iw = w < 46 ? 1 : 3;
+    var stripes = [[-1,-0.60,pal.stripe],[-0.60,-0.20,pal.body],[-0.20,0.20,pal.stripe],
+                   [0.20,0.60,pal.body],[0.60,1,pal.stripe]];
+    for(y=0;y<h;y++){
+      t = y/(h-1);
+      half = (w/2 - 1) * (1 - taper*t);
+      for(i=0;i<stripes.length;i++){
+        s = stripes[i];
+        a = Math.round(cxw + s[0]*half); b = Math.round(cxw + s[1]*half);
+        x.fillStyle = s[2]; x.fillRect(a, y, Math.max(1,b-a), 1);
+      }
+      x.fillStyle = pal.edge;
+      x.fillRect(Math.round(cxw-half)+ow, y, iw, 1);
+      x.fillRect(Math.round(cxw+half)-ow-iw, y, iw, 1);
+      x.fillStyle = INK;
+      x.fillRect(Math.round(cxw-half), y, ow, 1);
+      x.fillRect(Math.round(cxw+half)-ow, y, ow, 1);
+    }
+    x.fillStyle = INK; x.fillRect(0,0,w,Math.max(1,Math.round(h*0.024)));
+    var bh = Math.max(3, Math.round(h*0.085)), hb = (w/2-1)*(1-taper);
+    x.fillStyle = pal.bodyDk;
+    x.fillRect(Math.round(cxw-hb)+ow, h-bh, Math.round(hb*2)-ow*2, bh-ow);
+    x.fillStyle = INK;
+    x.fillRect(Math.round(cxw-hb), h-bh-ow, Math.round(hb*2), ow);
+    x.fillRect(Math.round(cxw-hb), h-ow,    Math.round(hb*2), ow);
+    return c;
+  }
+
+  /* ===================== tipografia pixel (R E T O P) ===================== */
+  var GLYPH = {
+    R:["11110","10001","10001","11110","10100","10010","10001"],
+    E:["11111","10000","10000","11110","10000","10000","11111"],
+    T:["11111","00100","00100","00100","00100","00100","00100"],
+    O:["01110","10001","10001","10001","10001","10001","01110"],
+    P:["11110","10001","10001","11110","10000","10000","10000"]
+  };
+  function wordCells(word){
+    var cells = [], i, g, r, col;
+    for(i=0;i<word.length;i++){
+      g = GLYPH[word.charAt(i)]; if(!g) continue;
+      for(r=0;r<7;r++) for(col=0;col<5;col++)
+        if(g[r].charAt(col)==="1") cells.push([i*6+col, r]);
+    }
+    return { cells:cells, w:word.length*6-1, h:7 };
+  }
+  function drawWord(x, word, ox, oy, s, fill, ink){
+    var W = wordCells(word), i, cx, cy, k;
+    var offs = [[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[1,-1],[-1,1],[1,1]];
+    x.fillStyle = ink;
+    for(i=0;i<W.cells.length;i++){
+      cx = ox + W.cells[i][0]*s; cy = oy + W.cells[i][1]*s;
+      for(k=0;k<offs.length;k++) x.fillRect(cx+offs[k][0]*s, cy+offs[k][1]*s, s, s);
+    }
+    x.fillStyle = fill;
+    for(i=0;i<W.cells.length;i++)
+      x.fillRect(ox + W.cells[i][0]*s, oy + W.cells[i][1]*s, s, s);
+    return W;
+  }
+
+  function makeBadgeDisc(d){
+    var c = cv(d,d), x = c.getContext("2d");
+    disc(x, d/2, d/2, d/2-1, INK);
+    disc(x, d/2, d/2, d/2-3.2, PINK_DK);
+    disc(x, d/2-d*0.022, d/2-d*0.026, d/2-5.2, PINK);
+    return c;
+  }
+  function makeBadgeText(d){
+    var c = cv(d,d), x = c.getContext("2d");
+    var s = Math.max(2, Math.round(d/34));
+    var w1 = wordCells("RETRO").w * s, w2 = wordCells("POP").w * s;
+    var lh = 7*s, gap = Math.round(s*3.2);
+    var top = Math.round(d/2 - (lh*2+gap)/2);
+    drawWord(x, "RETRO", Math.round(d/2 - w1/2), top, s, WHITE, INK);
+    drawWord(x, "POP",   Math.round(d/2 - w2/2), top+lh+gap, s, WHITE, INK);
+    return c;
+  }
+
+  /* ===================== composição estática (cards, logo) ===================== */
+  function moundLayout(n, cx, mouthY, halfW, dome, seed){
+    var r = mulberry32(seed), out = [], i, layer, k, per, u, spread, lift;
+    per = Math.ceil(n/3);
+    for(i=0;i<n;i++){
+      layer = i % 3; k = Math.floor(i/3);
+      u = -1 + 2*((k+0.5)/per);
+      spread = [0.58,0.84,0.96][layer];
+      lift   = [0.98,0.62,0.22][layer];
+      out.push({
+        x: cx + u*halfW*spread + (layer===1 ? halfW*0.42/per : 0) + (r()-0.5)*halfW*0.09,
+        y: mouthY - dome*lift*(1 - u*u*0.50) - (r()-0.5)*dome*0.10 + dome*0.20,
+        s: 0.94 + r()*0.28,
+        v: Math.floor(r()*6),
+        f: r() > 0.5
+      });
+    }
+    out.sort(function(a,b){ return a.y - b.y; });
+    return out;
+  }
+
+  function paintArt(canvas, opt){
+    var W = opt.w, H = opt.h, x = canvas.getContext("2d");
+    canvas.width = W; canvas.height = H;
+    x.imageSmoothingEnabled = false;
+
+    var bw = Math.round(W*0.78), bh = Math.round(H*0.56);
+    var bx = Math.round((W-bw)/2), by = H - bh;
+    var bucket = makeBucket(opt.bucket, bw, bh);
+    var puffs  = puffSet(opt.pop, opt.puffSize || 20, 6, opt.seed);
+    var spots  = moundLayout(opt.count || 11, W/2, by + 3, bw*0.50, H*0.30, opt.seed+5);
+
+    spots.forEach(function(p){
+      var sp = puffs[p.v % puffs.length], w = sp.width*p.s, h = sp.height*p.s;
+      x.save();
+      if(p.f){ x.translate(Math.round(p.x), Math.round(p.y)); x.scale(-1,1); x.drawImage(sp,-w/2,-h/2,w,h); }
+      else   { x.drawImage(sp, Math.round(p.x-w/2), Math.round(p.y-h/2), w, h); }
+      x.restore();
+    });
+    x.drawImage(bucket, bx, by);
+
+    if(opt.badge){
+      var d = Math.round(bw*0.62);
+      x.drawImage(makeBadgeDisc(d), Math.round(W/2-d/2), Math.round(by + bh*0.30));
+      if(opt.badgeText) x.drawImage(makeBadgeText(d), Math.round(W/2-d/2), Math.round(by + bh*0.30));
+    }
+  }
+
+  /* ===================== HERÓI ===================== */
+  var hero   = document.getElementById("topo"),
+      canvas = document.getElementById("popcorn"),
+      stage  = document.getElementById("stage"),
+      capEl  = document.getElementById("caption"),
+      endEl  = document.getElementById("heroEnd"),
+      cueEl  = document.getElementById("cue"),
+      railEl = document.getElementById("rail");
+
+  var HW = 260, HH = 330;
+  canvas.width = HW; canvas.height = HH;
+  var hx = canvas.getContext("2d");
+  hx.imageSmoothingEnabled = false;
+
+  var CX = HW/2, CY = HH*0.44;
+  var BW = Math.round(HW*0.70), BH = Math.round(HH*0.50);
+  var BX = Math.round((HW-BW)/2), BY = HH - BH;
+  var MOUTH = BY + 3;
+
+  var heroBucket = makeBucket({ body:PINK, bodyDk:PINK_DK, stripe:WHITE, edge:"#F5BFCB" }, BW, BH);
+  var BADGE_D = Math.round(BW*0.60);
+  var badgeDisc = makeBadgeDisc(BADGE_D), badgeText = makeBadgeText(BADGE_D);
+  var heroPuffs = puffSet(CREAM_PAL, 34, 6, 11);
+
+  var N = 26;
+  var mound = moundLayout(N, CX, MOUTH, BW*0.50, HH*0.26, 77);
+  var pieces = (function(){
+    var r = mulberry32(4242), out = [], i, a, d;
+    for(i=0;i<N;i++){
+      a = r()*6.2832; d = 34 + r()*74;
+      out.push({
+        t0: i===0 ? 0.125 : 0.20 + (i/N)*0.31 + r()*0.03,
+        sx: CX + Math.cos(a)*d*1.15,
+        sy: CY + Math.sin(a)*d*0.82 - 14,
+        mx: mound[i].x, my: mound[i].y,
+        sc: mound[i].s, v: mound[i].v, f: mound[i].f,
+        ph: r()*6.2832
+      });
+    }
+    return out;
+  })();
+  /* o primeiro grão é o herói: nasce no centro e fica na frente do monte */
+  pieces[0].sx = CX; pieces[0].sy = CY - 6;
+
+  function burst(x0, y0, t, size){
+    var a = 1-t, rr = size*(0.28 + t*1.25), i, ang, px, py, s;
+    hx.fillStyle = t < 0.45 ? WHITE : BUTTER;
+    for(i=0;i<8;i++){
+      ang = i*0.7854 + 0.22;
+      px = x0 + Math.cos(ang)*rr; py = y0 + Math.sin(ang)*rr;
+      s = Math.max(1, Math.round(size*0.20*a));
+      hx.fillRect(Math.round(px-s/2), Math.round(py-s/2), s, s);
+    }
+  }
+
+  function drawKernel(p, time){
+    var out = clamp((p-0.108)/0.022);
+    if(out >= 1) return;
+    var k = 1 - out;
+    var tense = clamp((p-0.045)/0.06);
+    var shake = reduce ? 0 : Math.sin(time*46)*2.2*tense;
+    var bob   = reduce ? 0 : Math.sin(time*2.2)*1.4*(1-tense);
+    var x0 = CX + shake, y0 = CY + bob;
+    var r = 6.4*k;
+    disc(hx, x0, y0-r*0.22, r*0.92+1.8, INK);
+    disc(hx, x0, y0+r*0.40, r*0.74+1.8, INK);
+    disc(hx, x0, y0-r*0.22, r*0.92, KERNEL);
+    disc(hx, x0, y0+r*0.40, r*0.74, KERNEL);
+    disc(hx, x0+r*0.32, y0+r*0.24, r*0.52, KERNEL_D);
+    disc(hx, x0-r*0.30, y0-r*0.42, r*0.40, "#FFD98A");
+    hx.fillStyle = INK;      hx.fillRect(Math.round(x0-2), Math.round(y0+r*1.02), 4, 2);
+    hx.fillStyle = KERNEL_D; hx.fillRect(Math.round(x0-1), Math.round(y0+r*1.02), 2, 2);
+    /* calor subindo */
+    if(!reduce && tense > 0){
+      hx.fillStyle = BUTTER;
+      for(var i=0;i<4;i++){
+        var ph = (time*0.9 + i*0.31) % 1;
+        var wy = y0 - 10 - ph*26;
+        var wx = x0 + Math.sin(ph*7 + i*2.1)*7;
+        if(ph < 0.85) hx.fillRect(Math.round(wx), Math.round(wy), 2, 2);
+      }
+    }
+  }
+
+  var CAPS = [
+    [0.10, "no começo, era só um grão"],
+    [0.15, "aí veio o calor"],
+    [0.21, "POP!"],
+    [0.34, "e não parou mais"],
+    [0.53, "milho virou nuvem"],
+    [0.78, "juntou tudo num balde"],
+    [1.01, "Retro Pop"]
+  ];
+  var capIdx = -1;
+
+  for(var ri=0; ri<12; ri++) railEl.appendChild(document.createElement("i"));
+  var railBits = railEl.children;
+
+  function drawHero(p, time){
+    hx.clearRect(0,0,HW,HH);
+
+    var migrate = easeInOut(clamp((p-0.545)/0.235));
+    var bReveal = easeOut(clamp((p-0.50)/0.22));
+    var i, pc, life, sc, sx, sy, x0, y0, sp, w, h, heroShrink, float;
+
+    for(i=0;i<pieces.length;i++){
+      pc = pieces[i];
+      life = clamp((p - pc.t0)/0.055);
+      if(life <= 0) continue;
+
+      sx = lerp(CX, pc.sx, easeOut(life));
+      sy = lerp(CY, pc.sy, easeOut(life));
+      x0 = lerp(sx, pc.mx, migrate);
+      y0 = lerp(sy, pc.my, migrate);
+
+      if(!reduce){
+        float = Math.sin(time*1.5 + pc.ph)*3.2*(1-migrate)*life;
+        y0 += float;
+      }
+
+      sc = pc.sc * (0.22 + 0.78*easeBack(life));
+      if(i === 0){
+        heroShrink = lerp(2.05, 1.0, easeInOut(clamp((p-0.20)/0.26)));
+        sc *= heroShrink;
+      }
+
+      sp = heroPuffs[pc.v % heroPuffs.length];
+      w = sp.width*sc; h = sp.height*sc;
+      hx.save();
+      if(pc.f){
+        hx.translate(Math.round(x0), Math.round(y0)); hx.scale(-1,1);
+        hx.drawImage(sp, -w/2, -h/2, w, h);
+      } else {
+        hx.drawImage(sp, Math.round(x0-w/2), Math.round(y0-h/2), w, h);
+      }
+      hx.restore();
+
+      if(life < 1) burst(x0, y0, life, 26*pc.sc*(i===0?1.9:1));
+    }
+
+    drawKernel(p, time);
+
+    if(bReveal > 0){
+      var by = BY + (1-bReveal)*(HH - BY + 14);
+      hx.drawImage(heroBucket, BX, Math.round(by));
+
+      var bp = clamp((p-0.80)/0.13);
+      if(bp > 0){
+        var s = easeBack(bp), d = BADGE_D*s;
+        var bcx = HW/2, bcy = by + BH*0.28 + BADGE_D/2;
+        hx.drawImage(badgeDisc, Math.round(bcx-d/2), Math.round(bcy-d/2), d, d);
+        var tp = clamp((p-0.855)/0.10);
+        if(tp > 0){
+          var ts = easeBack(tp), dt = BADGE_D*ts;
+          hx.drawImage(badgeText, Math.round(bcx-dt/2), Math.round(bcy-dt/2), dt, dt);
+        }
+      }
+    }
+  }
+
+  function syncHeroUI(p){
+    var idx = 0, i;
+    for(i=0;i<CAPS.length;i++){ if(p < CAPS[i][0]){ idx = i; break; } idx = i; }
+    if(idx !== capIdx){
+      capIdx = idx;
+      capEl.textContent = CAPS[idx][1];
+      capEl.classList.toggle("bang", CAPS[idx][1] === "POP!");
+      if(!reduce){
+        capEl.style.transform = "translateY(10px) scale(.94)"; capEl.style.opacity = "0";
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ capEl.style.transform = ""; capEl.style.opacity = "1"; });
+        });
+      }
+    }
+    var done = p > 0.90;
+    endEl.classList.toggle("on", done);
+    capEl.style.visibility = done ? "hidden" : "visible";
+    cueEl.style.opacity = p > 0.06 ? "0" : "1";
+    for(i=0;i<railBits.length;i++)
+      railBits[i].classList.toggle("on", (i+1)/railBits.length <= p + 0.02);
+  }
+
+  var pCur = 0, pTarget = 0, running = true;
+
+  function measure(){
+    var total = hero.offsetHeight - window.innerHeight;
+    var top = hero.getBoundingClientRect().top;
+    pTarget = clamp(-top/Math.max(1,total));
+  }
+
+  function frame(){
+    var time = performance.now()/1000;
+    pCur += (pTarget - pCur) * (reduce ? 1 : 0.14);
+    if(Math.abs(pTarget-pCur) < 0.0004) pCur = pTarget;
+    var cam = lerp(3.1, 1.0, easeInOut(clamp(pCur/0.60)))
+            * lerp(1, 1.16, easeInOut(clamp((pCur-0.78)/0.22)));
+    var rise = -5 * clamp((pCur-0.78)/0.22);
+    stage.style.transform = "scale(" + cam.toFixed(3) + ") translateY(" + rise.toFixed(2) + "%)";
+    drawHero(pCur, time);
+    syncHeroUI(pCur);
+    if(running) requestAnimationFrame(frame);
+  }
+
+  measure();
+  pCur = pTarget;
+  window.addEventListener("scroll", measure, {passive:true});
+  window.addEventListener("resize", measure);
+  requestAnimationFrame(frame);
+
+  /* ===================== nav ===================== */
+  var nav = document.getElementById("nav");
+  function navCheck(){ nav.classList.toggle("show", window.scrollY > hero.offsetHeight - window.innerHeight*0.6); }
+  navCheck();
+  window.addEventListener("scroll", navCheck, {passive:true});
+
+  /* ===================== marquee ===================== */
+  var words = ["Pipoca gourmet","Estourada na hora","Feira da escola","Seis sabores",
+               "SESI SENAI Jardim Colorado","Pix e dinheiro","Balde retrô","Passa na banca"];
+  var marq = document.getElementById("marq"), mi, mk;
+  for(mk=0;mk<2;mk++) for(mi=0;mi<words.length;mi++){
+    var sEl = document.createElement("span");
+    sEl.textContent = "★ " + words[mi];
+    marq.appendChild(sEl);
+  }
+
+  /* ===================== sabores ===================== */
+  var FLAVORS = [
+    { n:"Manteiga Clássica", d:"Manteiga de verdade derretida na hora e sal na medida certa. O simples que todo mundo volta pra pedir.",
+      p:"R$ 5", heat:1, flag:"O clássico",
+      pop:{fill:CREAM,hi:CREAM_HI,sh:CREAM_SH}, bucket:{body:PINK,bodyDk:PINK_DK,stripe:WHITE,edge:"#F5BFCB"} },
+    { n:"Caramelo Crocante", d:"Açúcar queimado na panela até virar casquinha. Estala nos dentes e gruda no dedo — faz parte.",
+      p:"R$ 8", heat:1, flag:"",
+      pop:{fill:"#D89A46",hi:"#F0BE72",sh:"#9E6721"}, bucket:{body:"#E08A2E",bodyDk:"#A85F17",stripe:WHITE,edge:"#F3C489"} },
+    { n:"Cheddar", d:"Cheddar em pó daquele laranja que denuncia. Salgadinha, viciante e some rápido demais.",
+      p:"R$ 8", heat:2, flag:"",
+      pop:{fill:"#F0A83C",hi:"#FFD173",sh:"#B26F14"}, bucket:{body:"#F2A22B",bodyDk:"#B06E12",stripe:WHITE,edge:"#F8D19A"} },
+    { n:"Doce de Leite", d:"Doce de leite por cima, ainda morninho, puxando fio. Prepare o guardanapo antes de pedir.",
+      p:"R$ 9", heat:1, flag:"",
+      pop:{fill:"#E0A868",hi:"#F6CE9A",sh:"#A5702F"}, bucket:{body:"#C97B45",bodyDk:"#8F4F24",stripe:"#FFF0DA",edge:"#E8B98E"} },
+    { n:"Chocolate", d:"Chocolate meio amargo derretido com uma pitada de sal por cima. Doce sem enjoar.",
+      p:"R$ 9", heat:1, flag:"",
+      pop:{fill:"#7A4A3A",hi:"#A6705A",sh:"#4E2B21"}, bucket:{body:"#6E3F44",bodyDk:"#472429",stripe:"#F5DCC4",edge:"#9A6169"} },
+    { n:"Pimenta Neon", d:"Páprica defumada com um toque de pimenta. Arde de leve, do jeito que dá vontade de beber suco.",
+      p:"R$ 8", heat:3, flag:"Novo",
+      pop:{fill:"#E4784E",hi:"#F7A87E",sh:"#A44A26"}, bucket:{body:"#E0473A",bodyDk:"#9C2419",stripe:"#FFF0DA",edge:"#F09188"} }
+  ];
+
+  var grid = document.getElementById("sabores-grid");
+  FLAVORS.forEach(function(f, i){
+    var art = document.createElement("canvas");
+    paintArt(art, { w:80, h:94, pop:f.pop, bucket:f.bucket, seed:300+i*31, count:16, puffSize:18 });
+
+    var el = document.createElement("article");
+    el.className = "card rv";
+    el.style.transitionDelay = (i%3)*0.07 + "s";
+    var heat = "";
+    for(var k=0;k<3;k++) heat += '<i class="' + (k < f.heat ? "on" : "") + '"></i>';
+    el.innerHTML =
+      (f.flag ? '<div class="flag">' + f.flag + "</div>" : "") +
+      '<div class="card-art"></div>' +
+      "<h3>" + f.n + "</h3>" +
+      "<p>" + f.d + "</p>" +
+      '<div class="card-foot"><span class="price">' + f.p + "</span>" +
+      '<span class="heat" title="intensidade">' + heat + "</span></div>";
+    el.querySelector(".card-art").appendChild(art);
+    grid.appendChild(el);
+  });
+
+  /* ===================== logos e enfeites ===================== */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-mini]"), function(c){
+    paintArt(c, { w:40, h:48, pop:CREAM_PAL, bucket:{body:PINK,bodyDk:PINK_DK,stripe:WHITE,edge:"#F5BFCB"},
+                  seed:9, count:10, puffSize:13 });
+  });
+
+  paintArt(document.getElementById("clubCanvas"), {
+    w:150, h:180, pop:CREAM_PAL, bucket:{body:PINK,bodyDk:PINK_DK,stripe:WHITE,edge:"#F5BFCB"},
+    seed:600, count:19, puffSize:30, badge:true, badgeText:true
+  });
+
+  var railPop = document.getElementById("rail-pop"), rp;
+  for(rp=0; rp<26; rp++){
+    var pc2 = makePuff(2000+rp*53, CREAM_PAL, 22);
+    railPop.appendChild(pc2);
+  }
+
+  var storyArt = document.getElementById("story-art"), sa;
+  var storyPals = [
+    {pop:{fill:"#D89A46",hi:"#F0BE72",sh:"#9E6721"}, bucket:{body:"#E08A2E",bodyDk:"#A85F17",stripe:WHITE,edge:"#F3C489"}},
+    {pop:CREAM_PAL, bucket:{body:PINK,bodyDk:PINK_DK,stripe:WHITE,edge:"#F5BFCB"}},
+    {pop:{fill:"#F0A83C",hi:"#FFD173",sh:"#B26F14"}, bucket:{body:"#F2A22B",bodyDk:"#B06E12",stripe:WHITE,edge:"#F8D19A"}}
+  ];
+  for(sa=0; sa<3; sa++){
+    var c3 = document.createElement("canvas");
+    paintArt(c3, { w:44, h:52, pop:storyPals[sa].pop, bucket:storyPals[sa].bucket,
+                   seed:800+sa*44, count:11, puffSize:14 });
+    storyArt.appendChild(c3);
+  }
+
+  /* ===================== reveals ===================== */
+  if("IntersectionObserver" in window && !reduce){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { rootMargin:"0px 0px -12% 0px", threshold:0.06 });
+    Array.prototype.forEach.call(document.querySelectorAll(".rv"), function(el){ io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(document.querySelectorAll(".rv"), function(el){ el.classList.add("in"); });
+  }
+
+  /* ===================== formulário ===================== */
+  var toast = document.getElementById("toast");
+  document.getElementById("clubForm").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    this.reset();
+    toast.classList.add("on");
+    setTimeout(function(){ toast.classList.remove("on"); }, 3200);
+  });
+})();
+</script>
