@@ -768,18 +768,21 @@ a{color:inherit}
   }
 
   /* ===================== composição estática (cards, logo) ===================== */
-  function moundLayout(n, cx, mouthY, halfW, dome, seed){
+  function moundLayout(n, cx, mouthY, halfW, dome, seed, layers){
+    var L = layers || 3;
+    var SPREAD = L === 4 ? [0.50,0.74,0.90,1.00] : [0.58,0.84,0.96];
+    var LIFT   = L === 4 ? [1.00,0.74,0.46,0.18] : [0.98,0.62,0.22];
     var r = mulberry32(seed), out = [], i, layer, k, per, u, spread, lift;
-    per = Math.ceil(n/3);
+    per = Math.ceil(n/L);
     for(i=0;i<n;i++){
-      layer = i % 3; k = Math.floor(i/3);
+      layer = i % L; k = Math.floor(i/L);
       u = -1 + 2*((k+0.5)/per);
-      spread = [0.58,0.84,0.96][layer];
-      lift   = [0.98,0.62,0.22][layer];
+      spread = SPREAD[layer];
+      lift   = LIFT[layer];
       out.push({
-        x: cx + u*halfW*spread + (layer===1 ? halfW*0.42/per : 0) + (r()-0.5)*halfW*0.09,
-        y: mouthY - dome*lift*(1 - u*u*0.50) - (r()-0.5)*dome*0.10 + dome*0.20,
-        s: 0.94 + r()*0.28,
+        x: cx + u*halfW*spread + (layer%2 ? halfW*0.44/per : 0) + (r()-0.5)*halfW*0.09,
+        y: mouthY - dome*lift*(1 - u*u*0.50) - (r()-0.5)*dome*0.08 + dome*0.20,
+        s: 1.00 + r()*0.26,
         v: Math.floor(r()*6),
         f: r() > 0.5
       });
@@ -838,8 +841,8 @@ a{color:inherit}
   var badgeDisc = makeBadgeDisc(BADGE_D), badgeText = makeBadgeText(BADGE_D);
   var heroPuffs = puffSet(CREAM_PAL, 34, 6, 11);
 
-  var N = 26;
-  var mound = moundLayout(N, CX, MOUTH, BW*0.50, HH*0.26, 77);
+  var N = 36;
+  var mound = moundLayout(N, CX, MOUTH, BW*0.50, HH*0.27, 77, 4);
   var pieces = (function(){
     var r = mulberry32(4242), out = [], i, a, d;
     for(i=0;i<N;i++){
