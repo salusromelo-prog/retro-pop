@@ -117,11 +117,6 @@ a{color:inherit}
   gap:16px;padding:clamp(16px,3vw,30px) clamp(16px,4vw,36px);
 }
 .hero-top .eyebrow{color:var(--blush)}
-.reel{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.reel .eyebrow{color:var(--butter)}
-.rail{display:flex;gap:3px}
-.rail i{width:9px;height:14px;background:rgba(255,246,232,.18);border:1px solid rgba(255,246,232,.3)}
-.rail i.on{background:var(--butter);border-color:var(--butter)}
 
 .stage-cell{position:relative;display:grid;place-items:center;z-index:2;min-height:0}
 .stage{
@@ -345,10 +340,6 @@ a{color:inherit}
 
     <div class="hero-top">
       <div class="eyebrow">Retro Pop · pipoca gourmet</div>
-      <div class="reel">
-        <div class="eyebrow">Rolo 01</div>
-        <div class="rail" id="rail"></div>
-      </div>
     </div>
 
     <div class="stage-cell">
@@ -821,8 +812,7 @@ a{color:inherit}
       stage  = document.getElementById("stage"),
       capEl  = document.getElementById("caption"),
       endEl  = document.getElementById("heroEnd"),
-      cueEl  = document.getElementById("cue"),
-      railEl = document.getElementById("rail");
+      cueEl  = document.getElementById("cue");
 
   var HW = 260, HH = 330;
   canvas.width = HW; canvas.height = HH;
@@ -910,9 +900,6 @@ a{color:inherit}
   ];
   var capIdx = -1;
 
-  for(var ri=0; ri<12; ri++) railEl.appendChild(document.createElement("i"));
-  var railBits = railEl.children;
-
   function drawHero(p, time){
     hx.clearRect(0,0,HW,HH);
 
@@ -993,8 +980,6 @@ a{color:inherit}
     endEl.classList.toggle("on", done);
     capEl.style.visibility = done ? "hidden" : "visible";
     cueEl.style.opacity = p > 0.06 ? "0" : "1";
-    for(i=0;i<railBits.length;i++)
-      railBits[i].classList.toggle("on", (i+1)/railBits.length <= p + 0.02);
   }
 
   var pCur = 0, pTarget = 0, running = true;
