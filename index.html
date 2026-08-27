@@ -772,20 +772,21 @@ a{color:inherit}
     var L = layers || 3;
     var SPREAD = L === 4 ? [0.50,0.74,0.90,1.00] : [0.58,0.84,0.96];
     var LIFT   = L === 4 ? [1.00,0.74,0.46,0.18] : [0.98,0.62,0.22];
-    var r = mulberry32(seed), out = [], i, layer, k, per, u, spread, lift;
-    per = Math.ceil(n/L);
-    for(i=0;i<n;i++){
-      layer = i % L; k = Math.floor(i/L);
-      u = -1 + 2*((k+0.5)/per);
-      spread = SPREAD[layer];
-      lift   = LIFT[layer];
-      out.push({
-        x: cx + u*halfW*spread + (layer%2 ? halfW*0.44/per : 0) + (r()-0.5)*halfW*0.09,
-        y: mouthY - dome*lift*(1 - u*u*0.50) - (r()-0.5)*dome*0.08 + dome*0.20,
-        s: 1.00 + r()*0.26,
-        v: Math.floor(r()*6),
-        f: r() > 0.5
-      });
+    var r = mulberry32(seed), out = [], layer, k, cnt, u, side;
+    for(layer=0; layer<L; layer++){
+      /* cada camada recebe a sua fatia e ocupa a largura inteira */
+      cnt  = Math.floor(n/L) + (layer < n % L ? 1 : 0);
+      side = (layer % 2 ? 1 : -1) * halfW * 0.22 / Math.max(1, cnt);
+      for(k=0; k<cnt; k++){
+        u = cnt > 1 ? -1 + 2*(k/(cnt-1)) : 0;
+        out.push({
+          x: cx + u*halfW*SPREAD[layer] + side + (r()-0.5)*halfW*0.06,
+          y: mouthY - dome*LIFT[layer]*(1 - u*u*0.50) - (r()-0.5)*dome*0.08 + dome*0.20,
+          s: 1.00 + r()*0.26,
+          v: Math.floor(r()*6),
+          f: r() > 0.5
+        });
+      }
     }
     out.sort(function(a,b){ return a.y - b.y; });
     return out;
@@ -800,7 +801,8 @@ a{color:inherit}
     var bx = Math.round((W-bw)/2), by = H - bh;
     var bucket = makeBucket(opt.bucket, bw, bh);
     var puffs  = puffSet(opt.pop, opt.puffSize || 20, 6, opt.seed);
-    var spots  = moundLayout(opt.count || 11, W/2, by + 3, bw*0.50, H*0.30, opt.seed+5);
+    var half   = bw*0.5 - (opt.puffSize || 20)*0.30;
+    var spots  = moundLayout(opt.count || 11, W/2, by + 3, half, H*0.30, opt.seed+5);
 
     spots.forEach(function(p){
       var sp = puffs[p.v % puffs.length], w = sp.width*p.s, h = sp.height*p.s;
@@ -842,7 +844,7 @@ a{color:inherit}
   var heroPuffs = puffSet(CREAM_PAL, 34, 6, 11);
 
   var N = 36;
-  var mound = moundLayout(N, CX, MOUTH, BW*0.50, HH*0.27, 77, 4);
+  var mound = moundLayout(N, CX, MOUTH, BW*0.5 - 34*0.48, HH*0.27, 77, 4);
   var pieces = (function(){
     var r = mulberry32(4242), out = [], i, a, d;
     for(i=0;i<N;i++){
@@ -1053,7 +1055,7 @@ a{color:inherit}
   var grid = document.getElementById("sabores-grid");
   FLAVORS.forEach(function(f, i){
     var art = document.createElement("canvas");
-    paintArt(art, { w:80, h:94, pop:f.pop, bucket:f.bucket, seed:300+i*31, count:16, puffSize:18 });
+    paintArt(art, { w:80, h:94, pop:f.pop, bucket:f.bucket, seed:300+i*31, count:13, puffSize:18 });
 
     var el = document.createElement("article");
     el.className = "card rv";
@@ -1079,7 +1081,7 @@ a{color:inherit}
 
   paintArt(document.getElementById("clubCanvas"), {
     w:150, h:180, pop:CREAM_PAL, bucket:{body:PINK,bodyDk:PINK_DK,stripe:WHITE,edge:"#F5BFCB"},
-    seed:600, count:19, puffSize:30, badge:true, badgeText:true
+    seed:600, count:16, puffSize:30, badge:true, badgeText:true
   });
 
   var railPop = document.getElementById("rail-pop"), rp;
