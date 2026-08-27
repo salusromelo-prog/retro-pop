@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Retro Pop - banca de pipoca gourmet na feira da Escola SESI SENAI Jardim Colorado. Sal, chocolate e ninho, em saquinho.">
 <title>Retro Pop</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -256,12 +262,13 @@ a{color:inherit}
 }
 
 /* ---------- placar ---------- */
-.score{width:100%;border-collapse:collapse;font-size:.95rem}
+.score{width:100%;border-collapse:collapse;font-size:.95rem;color:var(--paper)}
 .score th{
   font-family:var(--pixel);font-size:9px;text-align:left;text-transform:uppercase;
   color:var(--butter);padding:0 12px 12px 0;font-weight:400;
 }
-.score td{padding:14px 12px 14px 0;border-top:2px solid rgba(255,246,232,.22);vertical-align:top}
+.score td{padding:14px 12px 14px 0;border-top:2px solid rgba(255,246,232,.22);vertical-align:top;
+  color:var(--paper)}
 .score .rk{font-family:var(--pixel);font-size:12px;color:var(--pink)}
 .score .ini{font-family:var(--pixel);font-size:12px;color:var(--paper)}
 .score .pts{font-family:var(--pixel);font-size:11px;color:var(--butter);
@@ -319,6 +326,8 @@ a{color:inherit}
   .rv{opacity:1;transform:none;transition:none}
 }
 </style>
+</head>
+<body>
 
 <nav class="nav" id="nav">
   <a class="nav-mark" href="#topo"><canvas data-mini="1"></canvas><b>RETRO POP</b></a>
@@ -1103,3 +1112,6 @@ a{color:inherit}
 
 })();
 </script>
+
+</body>
+</html>
