@@ -284,6 +284,10 @@ a{color:inherit}
 }
 .club input::placeholder{color:#8B6A72}
 .note{font-family:var(--pixel);font-size:9px;margin-top:14px;color:var(--pink-dk)}
+.steps{list-style:none;margin:24px 0 26px;padding:0;display:flex;flex-direction:column;gap:12px;max-width:44ch}
+.steps li{display:flex;gap:14px;align-items:center;font-size:1.02rem;color:var(--ink)}
+.steps b{font-family:var(--pixel);font-size:11px;font-weight:400;color:var(--white);
+  background:var(--ink);padding:8px 9px;flex:none;line-height:1}
 .club-art{display:grid;place-items:center}
 .club-art canvas{height:min(360px,48vw);width:auto}
 
@@ -312,13 +316,6 @@ a{color:inherit}
 .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.3,1)}
 .rv.in{opacity:1;transform:none}
 
-/* ---------- toast ---------- */
-.toast{
-  position:fixed;left:50%;bottom:26px;transform:translate(-50%,140%);z-index:90;
-  background:var(--butter);color:var(--ink);border:var(--edge);box-shadow:var(--hard);
-  padding:14px 18px;font-family:var(--pixel);font-size:10px;transition:transform .4s cubic-bezier(.2,.8,.3,1);
-}
-.toast.on{transform:translate(-50%,0)}
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -336,7 +333,7 @@ a{color:inherit}
     <a href="#historia">A banca</a>
     <a href="#onde">Onde fica</a>
   </div>
-  <a class="btn btn-pink" href="#clube">Reservar</a>
+  <a class="btn btn-pink" href="#pedir">Como pedir</a>
 </nav>
 
 <!-- ============ HERO ============ -->
@@ -385,9 +382,9 @@ a{color:inherit}
     <div class="head rv">
       <div>
         <div class="eyebrow">O cardápio</div>
-        <h2 class="rp-h2">Seis sabores<br>na mesma banca</h2>
+        <h2 class="rp-h2">Três sabores,<br>um saquinho só</h2>
       </div>
-      <div class="tag">Preço do copo M · 100 g</div>
+      <div class="tag">Preço a definir</div>
     </div>
     <div class="grid" id="sabores-grid"></div>
   </div>
@@ -402,57 +399,56 @@ a{color:inherit}
     <div class="head rv">
       <div>
         <div class="eyebrow">Combos</div>
-        <h2 class="rp-h2" style="color:var(--paper)">Leva mais,<br>paga menos</h2>
+        <h2 class="rp-h2" style="color:var(--paper)">Leva mais<br>de uma vez</h2>
       </div>
-      <div class="tag" style="color:var(--butter)">Só na banca, no dia da feira</div>
+      <div class="tag" style="color:var(--butter)">Preços a definir</div>
     </div>
 
     <div class="tickets">
       <article class="ticket rv">
         <div class="ticket-top">
-          <h3>Combo Solo</h3>
-          <div class="price">R$&nbsp;8</div>
+          <h3>Solo</h3>
+          <div class="price">1x</div>
         </div>
         <div class="stub">
           <ul>
-            <li>1 copo M do sabor que quiser</li>
-            <li>1 copo de suco gelado</li>
-            <li>Guardanapo (você vai precisar)</li>
+            <li>1 saquinho fechado</li>
+            <li>Sabor à sua escolha</li>
           </ul>
-          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra circular pela feira mastigando.</p>
-          <div class="ticket-meta"><span>Vale 1 pipoca</span><span>Retro Pop</span></div>
+          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra matar a vontade e seguir andando pela feira.</p>
+          <div class="ticket-meta"><span>Vale 1 saquinho</span><span>Retro Pop</span></div>
         </div>
       </article>
 
       <article class="ticket star rv">
         <div class="ticket-top">
-          <h3>Combo Dupla</h3>
-          <div class="price">R$&nbsp;14</div>
+          <h3>Dupla</h3>
+          <div class="price">2x</div>
         </div>
         <div class="stub">
           <ul>
-            <li>2 copos M — sabores diferentes</li>
-            <li>2 copos de suco gelado</li>
-            <li>Sai mais barato que dois separados</li>
+            <li>2 saquinhos fechados</li>
+            <li>Pode misturar os sabores</li>
+            <li>Bom pra dividir</li>
           </ul>
-          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra dividir com quem entrou na fila com você.</p>
-          <div class="ticket-meta"><span>Vale 2 pipocas</span><span>Retro Pop</span></div>
+          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra quem entrou na fila acompanhado.</p>
+          <div class="ticket-meta"><span>Vale 2 saquinhos</span><span>Retro Pop</span></div>
         </div>
       </article>
 
       <article class="ticket rv">
         <div class="ticket-top">
-          <h3>Balde da Turma</h3>
-          <div class="price">R$&nbsp;25</div>
+          <h3>Kit Completo</h3>
+          <div class="price">3x</div>
         </div>
         <div class="stub">
           <ul>
-            <li>1 balde G — dá pra quatro</li>
-            <li>Até 2 sabores no mesmo balde</li>
-            <li>Sob encomenda, avisa antes</li>
+            <li>3 saquinhos fechados</li>
+            <li>Um de cada sabor</li>
+            <li>Sal, chocolate e ninho</li>
           </ul>
-          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra sala inteira dividir no intervalo.</p>
-          <div class="ticket-meta"><span>Vale 1 balde</span><span>Retro Pop</span></div>
+          <p style="margin:0;font-size:.93rem;color:#6B4A52">Pra quem não consegue escolher só um.</p>
+          <div class="ticket-meta"><span>Vale 3 saquinhos</span><span>Retro Pop</span></div>
         </div>
       </article>
     </div>
@@ -465,23 +461,23 @@ a{color:inherit}
     <div class="head rv">
       <div>
         <div class="eyebrow">A banca</div>
-        <h2 class="rp-h2">Feito por alunos,<br>estourado na hora</h2>
+        <h2 class="rp-h2">Feito por alunos,<br>pra feira da escola</h2>
       </div>
     </div>
 
     <div class="story">
       <div class="rv">
         <p class="drop lede">A Retro Pop é uma banca de pipoca gourmet montada por alunos da Escola SESI SENAI Jardim Colorado para a feira da escola.</p>
-        <p>A ideia era pegar a pipoca de sempre e levar a sério: milho bom, manteiga de verdade e caldas feitas na hora, servidas num balde listrado que parece ter saído de um cinema antigo.</p>
-        <p>Tudo é estourado na frente de quem pede, em porções pequenas, pra chegar quentinho na sua mão. Passa na banca, escolhe o sabor e fica olhando o milho estourar.</p>
+        <p>A ideia era pegar a pipoca de sempre e levar a sério: três sabores bem feitos, um tamanho só, e uma cara de cinema antigo em cima do saquinho.</p>
+        <p>Tudo já vem embalado e fechado, pronto pra pegar e levar — assim a fila anda rápido e ninguém fica esperando no meio da feira.</p>
         <div class="story-art" id="story-art" aria-hidden="true"></div>
       </div>
 
       <div class="stats rv">
-        <div class="stat"><b>06</b><span>Sabores no cardápio</span></div>
-        <div class="stat"><b>R$&nbsp;5</b><span>A partir de</span></div>
-        <div class="stat"><b>03</b><span>Tamanhos: P, M e G</span></div>
-        <div class="stat"><b>01</b><span>Banca, bem no meio da feira</span></div>
+        <div class="stat"><b>03</b><span>Sabores no cardápio</span></div>
+        <div class="stat"><b>01</b><span>Tamanho, saquinho único</span></div>
+        <div class="stat"><b>02</b><span>Formas de pagamento</span></div>
+        <div class="stat"><b>100%</b><span>Feito por alunos</span></div>
       </div>
     </div>
   </div>
@@ -502,7 +498,7 @@ a{color:inherit}
       <div class="spot">
         <div class="n">01</div>
         <div><h3>Escola SESI SENAI Jardim Colorado</h3><div class="addr">Banca da Retro Pop, no espaço da feira</div></div>
-        <div class="hrs">Procure o balde listrado</div>
+        <div class="hrs">Procure o cartaz rosa</div>
         <div class="dot"></div>
       </div>
       <div class="spot">
@@ -513,14 +509,14 @@ a{color:inherit}
       </div>
       <div class="spot">
         <div class="n">03</div>
-        <div><h3>Pagamento</h3><div class="addr">Pix na hora ou dinheiro — traga trocado se puder</div></div>
-        <div class="hrs">Sem taxa</div>
+        <div><h3>Pagamento</h3><div class="addr">Dinheiro e pix na certa — maquininha a gente ainda está vendo</div></div>
+        <div class="hrs">Traga trocado</div>
         <div class="dot"></div>
       </div>
       <div class="spot">
         <div class="n">04</div>
-        <div><h3>Encomenda</h3><div class="addr">Balde da turma sai mais rápido se avisar antes</div></div>
-        <div class="hrs">Fale com a gente</div>
+        <div><h3>Saquinho</h3><div class="addr">Tudo já embalado e fechado, é só pegar e levar</div></div>
+        <div class="hrs">Um tamanho só</div>
         <div class="dot"></div>
       </div>
     </div>
@@ -545,11 +541,11 @@ a{color:inherit}
           <tr><th>Nº</th><th>Pergunta</th><th>Resposta</th></tr>
         </thead>
         <tbody>
-          <tr><td class="rk">01</td><td>Serve quantas pessoas?</td><td><q>O copo M mata a vontade de uma pessoa. O balde G divide bem entre quatro.</q></td></tr>
-          <tr><td class="rk">02</td><td>Dá pra encomendar antes?</td><td><q>Dá. Fala com a gente antes da feira e a gente separa o seu.</q></td></tr>
-          <tr><td class="rk">03</td><td>Tem sabor sem açúcar?</td><td><q>Tem: manteiga clássica e cheddar são salgados, sem açúcar nenhum.</q></td></tr>
-          <tr><td class="rk">04</td><td>E se eu tiver alergia?</td><td><q>Pergunte na banca antes de pedir — a gente mostra a embalagem de cada ingrediente que usamos.</q></td></tr>
-          <tr><td class="rk">05</td><td>Aceita cartão?</td><td><q>Por enquanto só pix e dinheiro. O pix cai na hora.</q></td></tr>
+          <tr><td class="rk">01</td><td>Quantos sabores tem?</td><td><q>Três: sal, chocolate e ninho. Todos no mesmo saquinho.</q></td></tr>
+          <tr><td class="rk">02</td><td>Tem tamanho maior?</td><td><q>Por enquanto não. É um tamanho só, igual pra todo mundo.</q></td></tr>
+          <tr><td class="rk">03</td><td>A pipoca é feita na hora?</td><td><q>Não. A gente prepara antes e vende em saquinho fechado, pra fila andar rápido.</q></td></tr>
+          <tr><td class="rk">04</td><td>Aceita cartão?</td><td><q>Dinheiro e pix na certa. Maquininha a gente ainda está vendo se consegue.</q></td></tr>
+          <tr><td class="rk">05</td><td>E se eu tiver alergia?</td><td><q>Chocolate e ninho levam leite. Pergunte na banca antes de pedir que a gente mostra a embalagem dos ingredientes.</q></td></tr>
         </tbody>
       </table>
     </div>
@@ -557,18 +553,19 @@ a{color:inherit}
 </section>
 
 <!-- ============ CLUBE ============ -->
-<section class="band band-pink band-pad" id="clube">
+<section class="band band-pink band-pad" id="pedir">
   <div class="wrap club">
     <div class="rv">
-      <div class="eyebrow" style="color:var(--white)">Encomenda</div>
-      <h2 class="rp-h2" style="color:var(--white);margin-top:10px">Garanta o seu<br>antes da feira</h2>
-      <p class="lede" style="color:var(--ink);margin-top:16px">Quer um balde grande pra turma ou um sabor específico separado? Deixa seu nome que a gente reserva pro dia da feira.</p>
-      <form id="clubForm">
-        <label for="nome" class="eyebrow" style="flex:1 1 100%;color:var(--white)">Seu nome e turma</label>
-        <input id="nome" type="text" required placeholder="Ana · 2º ano B" autocomplete="name">
-        <button class="btn" type="submit">Quero reservar</button>
-      </form>
-      <p class="note">A reserva vale quando você confirmar com a gente pessoalmente.</p>
+      <div class="eyebrow" style="color:var(--white)">Como pedir</div>
+      <h2 class="rp-h2" style="color:var(--white);margin-top:10px">Escolhe, paga,<br>leva o saquinho</h2>
+      <p class="lede" style="color:var(--ink);margin-top:16px">Sem fila parada e sem espera: os saquinhos já ficam prontos no balcão, é só apontar o sabor.</p>
+      <ol class="steps">
+        <li><b>01</b><span>Escolhe entre sal, chocolate e ninho</span></li>
+        <li><b>02</b><span>Paga ali mesmo, em dinheiro ou pix</span></li>
+        <li><b>03</b><span>Pega o saquinho e volta pra feira</span></li>
+      </ol>
+      <a class="btn" href="#sabores">Ver os sabores</a>
+      <p class="note">Maquininha de cartão: ainda estamos vendo se conseguimos uma.</p>
     </div>
     <div class="club-art rv" aria-hidden="true"><canvas id="clubCanvas"></canvas></div>
   </div>
@@ -584,7 +581,7 @@ a{color:inherit}
         <ul>
           <li><a href="#sabores">Sabores</a></li>
           <li><a href="#combos">Combos</a></li>
-          <li><a href="#clube">Encomenda</a></li>
+          <li><a href="#pedir">Como pedir</a></li>
         </ul>
       </div>
       <div>
@@ -604,11 +601,11 @@ a{color:inherit}
         </ul>
       </div>
       <div>
-        <h4>Falar com a gente</h4>
+        <h4>Bom saber</h4>
         <ul>
-          <li><a href="#clube">Reservar um balde</a></li>
-          <li><a href="#faq">Tirar uma dúvida</a></li>
-          <li><a href="#onde">Como chegar na banca</a></li>
+          <li><a href="#faq">Alergia e ingredientes</a></li>
+          <li><a href="#onde">Dinheiro e pix</a></li>
+          <li><a href="#faq">Outras dúvidas</a></li>
         </ul>
       </div>
     </div>
@@ -619,7 +616,6 @@ a{color:inherit}
   </div>
 </footer>
 
-<div class="toast" id="toast">Anotado! Confirma com a gente pra garantir.</div>
 
 <script>
 (function(){
@@ -1035,8 +1031,8 @@ a{color:inherit}
   window.addEventListener("scroll", navCheck, {passive:true});
 
   /* ===================== marquee ===================== */
-  var words = ["Pipoca gourmet","Estourada na hora","Feira da escola","Seis sabores",
-               "SESI SENAI Jardim Colorado","Pix e dinheiro","Balde retrô","Passa na banca"];
+  var words = ["Pipoca gourmet","Sal, chocolate e ninho","Feira da escola","Saquinho fechado",
+               "SESI SENAI Jardim Colorado","Pix e dinheiro","Pega e leva","Passa na banca"];
   var marq = document.getElementById("marq"), mi, mk;
   for(mk=0;mk<2;mk++) for(mi=0;mi<words.length;mi++){
     var sEl = document.createElement("span");
@@ -1046,24 +1042,15 @@ a{color:inherit}
 
   /* ===================== sabores ===================== */
   var FLAVORS = [
-    { n:"Manteiga Clássica", d:"Manteiga de verdade derretida na hora e sal na medida certa. O simples que todo mundo volta pra pedir.",
-      p:"R$ 5", heat:1, flag:"O clássico",
+    { n:"Sal", d:"O clássico salgado. Pipoca com sal na medida certa, sem invenção nenhuma — a que agrada todo mundo.",
+      p:"Salgado", heat:0, flag:"O clássico",
       pop:{fill:CREAM,hi:CREAM_HI,sh:CREAM_SH}, bucket:{body:PINK,bodyDk:PINK_DK,stripe:WHITE,edge:"#F5BFCB"} },
-    { n:"Caramelo Crocante", d:"Açúcar queimado na panela até virar casquinha. Estala nos dentes e gruda no dedo — faz parte.",
-      p:"R$ 8", heat:1, flag:"",
-      pop:{fill:"#D89A46",hi:"#F0BE72",sh:"#9E6721"}, bucket:{body:"#E08A2E",bodyDk:"#A85F17",stripe:WHITE,edge:"#F3C489"} },
-    { n:"Cheddar", d:"Cheddar em pó daquele laranja que denuncia. Salgadinha, viciante e some rápido demais.",
-      p:"R$ 8", heat:2, flag:"",
-      pop:{fill:"#F0A83C",hi:"#FFD173",sh:"#B26F14"}, bucket:{body:"#F2A22B",bodyDk:"#B06E12",stripe:WHITE,edge:"#F8D19A"} },
-    { n:"Doce de Leite", d:"Doce de leite por cima, ainda morninho, puxando fio. Prepare o guardanapo antes de pedir.",
-      p:"R$ 9", heat:1, flag:"",
-      pop:{fill:"#E0A868",hi:"#F6CE9A",sh:"#A5702F"}, bucket:{body:"#C97B45",bodyDk:"#8F4F24",stripe:"#FFF0DA",edge:"#E8B98E"} },
-    { n:"Chocolate", d:"Chocolate meio amargo derretido com uma pitada de sal por cima. Doce sem enjoar.",
-      p:"R$ 9", heat:1, flag:"",
+    { n:"Chocolate", d:"Coberta com chocolate e deixada secar até virar casquinha. Doce de verdade, daquelas que suja o dedo.",
+      p:"Doce", heat:3, flag:"",
       pop:{fill:"#7A4A3A",hi:"#A6705A",sh:"#4E2B21"}, bucket:{body:"#6E3F44",bodyDk:"#472429",stripe:"#F5DCC4",edge:"#9A6169"} },
-    { n:"Pimenta Neon", d:"Páprica defumada com um toque de pimenta. Arde de leve, do jeito que dá vontade de beber suco.",
-      p:"R$ 8", heat:3, flag:"Novo",
-      pop:{fill:"#E4784E",hi:"#F7A87E",sh:"#A44A26"}, bucket:{body:"#E0473A",bodyDk:"#9C2419",stripe:"#FFF0DA",edge:"#F09188"} }
+    { n:"Ninho", d:"Leite em pó por cima, bem cremoso e docinho. Some do saquinho antes de você perceber.",
+      p:"Cremoso", heat:2, flag:"",
+      pop:{fill:"#FBF0DA",hi:"#FFFBEF",sh:"#D9C6A2"}, bucket:{body:"#4E9AA6",bodyDk:"#2E6C77",stripe:WHITE,edge:"#A5CFD6"} }
   ];
 
   var grid = document.getElementById("sabores-grid");
@@ -1082,7 +1069,7 @@ a{color:inherit}
       "<h3>" + f.n + "</h3>" +
       "<p>" + f.d + "</p>" +
       '<div class="card-foot"><span class="price">' + f.p + "</span>" +
-      '<span class="heat" title="intensidade">' + heat + "</span></div>";
+      '<span class="heat" title="doçura">' + heat + "</span></div>";
     el.querySelector(".card-art").appendChild(art);
     grid.appendChild(el);
   });
@@ -1129,13 +1116,5 @@ a{color:inherit}
     Array.prototype.forEach.call(document.querySelectorAll(".rv"), function(el){ el.classList.add("in"); });
   }
 
-  /* ===================== formulário ===================== */
-  var toast = document.getElementById("toast");
-  document.getElementById("clubForm").addEventListener("submit", function(ev){
-    ev.preventDefault();
-    this.reset();
-    toast.classList.add("on");
-    setTimeout(function(){ toast.classList.remove("on"); }, 3200);
-  });
 })();
 </script>

@@ -27,16 +27,24 @@ O herói usa as mesmas funções, mas animado pelo scroll: um grão estoura, vir
 Os sabores ficam no array `FLAVORS`, dentro do `<script>`. Cada item define nome, descrição, preço, nível de ardência e as cores do balde e da pipoca:
 
 ```js
-{ n:"Caramelo Crocante", d:"Açúcar queimado na panela...",
-  p:"R$ 8", heat:1, flag:"",
-  pop:{fill:"#D89A46",hi:"#F0BE72",sh:"#9E6721"},
-  bucket:{body:"#E08A2E",bodyDk:"#A85F17",stripe:"#FFF6E8",edge:"#F3C489"} }
+{ n:"Ninho", d:"Leite em pó por cima, bem cremoso e docinho...",
+  p:"Cremoso", heat:2, flag:"",
+  pop:{fill:"#FBF0DA",hi:"#FFFBEF",sh:"#D9C6A2"},
+  bucket:{body:"#4E9AA6",bodyDk:"#2E6C77",stripe:"#FFF6E8",edge:"#A5CFD6"} }
 ```
+
+`heat` aqui é a doçura (0 a 3) e `p` é o descritor curto que aparece no rodapé do card.
 
 Mudou as cores, a arte do card muda junto — não precisa editar imagem nenhuma.
 
+## O que a banca vende
+
+Três sabores — **sal**, **chocolate** e **ninho** — em saquinho fechado, um tamanho só.
+A pipoca é preparada antes e vendida embalada, não estourada na hora.
+Pagamento em dinheiro e pix (maquininha de cartão ainda em aberto).
+
 ## Ainda falta preencher
 
-- A data e o horário da feira (hoje está "Data a confirmar", na seção **Onde e quando**)
-- Confirmar os preços e os tamanhos
-- O formulário de encomenda só mostra um aviso na tela; ele ainda não envia nada pra lugar nenhum
+- **O preço** — a página inteira está sem valor nenhum, só "Preço a definir"
+- **A data e o horário da feira** — hoje está "Data a confirmar", na seção *Onde e quando*
+- **A maquininha** — confirmar se vai ter cartão ou não
