@@ -24,16 +24,16 @@ O herói usa as mesmas funções, mas animado pelo scroll: um grão estoura, vir
 
 ## Mexer no cardápio
 
-Os sabores ficam no array `FLAVORS`, dentro do `<script>`. Cada item define nome, descrição, preço, nível de ardência e as cores do balde e da pipoca:
+Os sabores ficam no array `FLAVORS`, dentro do `<script>`. Cada item define nome, descrição, preço, doçura e as cores do balde e da pipoca:
 
 ```js
 { n:"Ninho", d:"Leite em pó por cima, bem cremoso e docinho...",
-  p:"Cremoso", heat:2, flag:"",
+  p:"R$ 15", heat:2, flag:"",
   pop:{fill:"#FBF0DA",hi:"#FFFBEF",sh:"#D9C6A2"},
   bucket:{body:"#4E9AA6",bodyDk:"#2E6C77",stripe:"#FFF6E8",edge:"#A5CFD6"} }
 ```
 
-`heat` aqui é a doçura (0 a 3) e `p` é o descritor curto que aparece no rodapé do card.
+`p` é o preço e `heat` é a doçura de 0 a 3, que vira os pontinhos no rodapé do card (sal fica em 0).
 
 Mudou as cores, a arte do card muda junto — não precisa editar imagem nenhuma.
 
