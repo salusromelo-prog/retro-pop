@@ -39,12 +39,19 @@ Mudou as cores, a arte do card muda junto — não precisa editar imagem nenhuma
 
 ## O que a banca vende
 
-Três sabores — **sal**, **chocolate** e **ninho** — em saquinho fechado, um tamanho só.
+Três sabores em saquinho fechado, um tamanho só:
+
+| Sabor | Preço |
+| --- | --- |
+| Sal | R$ 10 |
+| Chocolate | R$ 15 |
+| Ninho | R$ 15 |
+
 A pipoca é preparada antes e vendida embalada, não estourada na hora.
 Pagamento em dinheiro e pix (maquininha de cartão ainda em aberto).
 
 ## Ainda falta preencher
 
-- **O preço** — a página inteira está sem valor nenhum, só "Preço a definir"
 - **A data e o horário da feira** — hoje está "Data a confirmar", na seção *Onde e quando*
 - **A maquininha** — confirmar se vai ter cartão ou não
+- **Preço dos combos** — a seção de combos mostra a quantidade, não o valor; hoje o preço é só a soma dos saquinhos

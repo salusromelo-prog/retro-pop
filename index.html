@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Retro Pop - banca de pipoca gourmet na feira da Escola SESI SENAI Jardim Colorado. Sal, chocolate e ninho, em saquinho.">
+<meta name="description" content="Retro Pop - banca de pipoca gourmet na feira da Escola SESI SENAI Jardim Colorado. Salgada R$ 10, doce R$ 15.">
 <title>Retro Pop</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -384,7 +384,7 @@ a{color:inherit}
         <div class="eyebrow">O cardápio</div>
         <h2 class="rp-h2">Três sabores,<br>um saquinho só</h2>
       </div>
-      <div class="tag">Preço a definir</div>
+      <div class="tag">Salgada R$ 10 · doce R$ 15</div>
     </div>
     <div class="grid" id="sabores-grid"></div>
   </div>
@@ -401,7 +401,7 @@ a{color:inherit}
         <div class="eyebrow">Combos</div>
         <h2 class="rp-h2" style="color:var(--paper)">Leva mais<br>de uma vez</h2>
       </div>
-      <div class="tag" style="color:var(--butter)">Preços a definir</div>
+      <div class="tag" style="color:var(--butter)">Preço = a soma dos saquinhos</div>
     </div>
 
     <div class="tickets">
@@ -476,7 +476,7 @@ a{color:inherit}
       <div class="stats rv">
         <div class="stat"><b>03</b><span>Sabores no cardápio</span></div>
         <div class="stat"><b>01</b><span>Tamanho, saquinho único</span></div>
-        <div class="stat"><b>02</b><span>Formas de pagamento</span></div>
+        <div class="stat"><b>R$&nbsp;10</b><span>A partir de</span></div>
         <div class="stat"><b>100%</b><span>Feito por alunos</span></div>
       </div>
     </div>
@@ -541,11 +541,12 @@ a{color:inherit}
           <tr><th>Nº</th><th>Pergunta</th><th>Resposta</th></tr>
         </thead>
         <tbody>
-          <tr><td class="rk">01</td><td>Quantos sabores tem?</td><td><q>Três: sal, chocolate e ninho. Todos no mesmo saquinho.</q></td></tr>
-          <tr><td class="rk">02</td><td>Tem tamanho maior?</td><td><q>Por enquanto não. É um tamanho só, igual pra todo mundo.</q></td></tr>
-          <tr><td class="rk">03</td><td>A pipoca é feita na hora?</td><td><q>Não. A gente prepara antes e vende em saquinho fechado, pra fila andar rápido.</q></td></tr>
-          <tr><td class="rk">04</td><td>Aceita cartão?</td><td><q>Dinheiro e pix na certa. Maquininha a gente ainda está vendo se consegue.</q></td></tr>
-          <tr><td class="rk">05</td><td>E se eu tiver alergia?</td><td><q>Chocolate e ninho levam leite. Pergunte na banca antes de pedir que a gente mostra a embalagem dos ingredientes.</q></td></tr>
+          <tr><td class="rk">01</td><td>Quanto custa?</td><td><q>Salgada R$ 10 e doce R$ 15. Mesmo saquinho nas duas.</q></td></tr>
+          <tr><td class="rk">02</td><td>Quantos sabores tem?</td><td><q>Três: sal, chocolate e ninho. Todos no mesmo saquinho.</q></td></tr>
+          <tr><td class="rk">03</td><td>Tem tamanho maior?</td><td><q>Por enquanto não. É um tamanho só, igual pra todo mundo.</q></td></tr>
+          <tr><td class="rk">04</td><td>A pipoca é feita na hora?</td><td><q>Não. A gente prepara antes e vende em saquinho fechado, pra fila andar rápido.</q></td></tr>
+          <tr><td class="rk">05</td><td>Aceita cartão?</td><td><q>Dinheiro e pix na certa. Maquininha a gente ainda está vendo se consegue.</q></td></tr>
+          <tr><td class="rk">06</td><td>E se eu tiver alergia?</td><td><q>Chocolate e ninho levam leite. Pergunte na banca antes de pedir que a gente mostra a embalagem dos ingredientes.</q></td></tr>
         </tbody>
       </table>
     </div>
@@ -1042,13 +1043,13 @@ a{color:inherit}
   /* ===================== sabores ===================== */
   var FLAVORS = [
     { n:"Sal", d:"O clássico salgado. Pipoca com sal na medida certa, sem invenção nenhuma — a que agrada todo mundo.",
-      p:"Salgado", heat:0, flag:"O clássico",
+      p:"R$ 10", heat:0, flag:"O clássico",
       pop:{fill:CREAM,hi:CREAM_HI,sh:CREAM_SH}, bucket:{body:PINK,bodyDk:PINK_DK,stripe:WHITE,edge:"#F5BFCB"} },
     { n:"Chocolate", d:"Coberta com chocolate e deixada secar até virar casquinha. Doce de verdade, daquelas que suja o dedo.",
-      p:"Doce", heat:3, flag:"",
+      p:"R$ 15", heat:3, flag:"",
       pop:{fill:"#7A4A3A",hi:"#A6705A",sh:"#4E2B21"}, bucket:{body:"#6E3F44",bodyDk:"#472429",stripe:"#F5DCC4",edge:"#9A6169"} },
     { n:"Ninho", d:"Leite em pó por cima, bem cremoso e docinho. Some do saquinho antes de você perceber.",
-      p:"Cremoso", heat:2, flag:"",
+      p:"R$ 15", heat:2, flag:"",
       pop:{fill:"#FBF0DA",hi:"#FFFBEF",sh:"#D9C6A2"}, bucket:{body:"#4E9AA6",bodyDk:"#2E6C77",stripe:WHITE,edge:"#A5CFD6"} }
   ];
 
